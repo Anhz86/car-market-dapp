@@ -6,9 +6,23 @@ export default function ListaAutos({ contract }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Define un ZeroHash para comparaciones, similar a ethers.ZeroAddress
+  const ZeroHash = "0x0000000000000000000000000000000000000000000000000000000000000000";
+
   const shortenAddress = (address) => {
-    if (!address || address === ethers.ZeroAddress) return "N/A";
+    if (!address || address === ethers.ZeroAddress || address === ZeroHash) return "N/A";
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  };
+
+  // 🛠️ FUNCIÓN AGREGADA: Para generar el enlace al explorador de bloques
+  const obtenerUrlEtherscan = (txHash) => {
+    // ⚠️ IMPORTANTE: Reemplaza con la URL base de tu explorador de bloques (Etherscan, Polygonscan, etc.)
+    // Usé Sepolia como ejemplo, debes ajustarlo a la red donde desplegaste tu contrato.
+    const BASE_URL = "https://sepolia.etherscan.io"; 
+    if (txHash && txHash !== ZeroHash) {
+        return `${BASE_URL}/tx/${txHash}`;
+    }
+    return null;
   };
 
   const cargarAutos = async () => {
@@ -18,6 +32,8 @@ export default function ListaAutos({ contract }) {
     setAutos([]);
 
     try {
+      // Asume que tu contrato inteligente tiene un método `getAutos()` que devuelve
+      // una estructura con id, marca, modelo, anio, precio, vendedor, comprador, vendido, y AHORA transactionHash.
       const autosData = await contract.getAutos();
       
       const lista = autosData.map((auto) => ({
@@ -29,6 +45,8 @@ export default function ListaAutos({ contract }) {
         vendedor: auto.vendedor,
         comprador: auto.comprador,
         vendido: auto.vendido,
+        // 🔑 CAMBIO AGREGADO: Mapear el nuevo campo transactionHash del contrato
+        txHash: auto.transactionHash || ZeroHash, 
       }));
 
       setAutos(lista);
@@ -46,7 +64,7 @@ export default function ListaAutos({ contract }) {
 
   return (
     <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 overflow-hidden">
-      {/* HEADER */}
+      {/* HEADER (sin cambios) */}
       <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-3">
@@ -91,7 +109,7 @@ export default function ListaAutos({ contract }) {
         </div>
       </div>
 
-      {/* ERROR */}
+      {/* ERROR (sin cambios) */}
       {error && (
         <div className="mx-6 mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
           <div className="flex items-center">
@@ -128,7 +146,9 @@ export default function ListaAutos({ contract }) {
                       { label: 'Año', icon: '📅' },
                       { label: 'Precio', icon: '💰' },
                       { label: 'Vendedor', icon: '👤' },
-                      { label: 'Estado', icon: '📊' }
+                      { label: 'Comprador', icon: '🤝' },
+                      { label: 'Estado', icon: '📊' },
+                      { label: 'Transacción', icon: '🔗' } // 🔑 NUEVO ENCABEZADO
                     ].map(header => (
                       <th key={header.label} className="px-6 py-4 text-left text-xs font-black text-gray-600 uppercase tracking-wider">
                         <span className="flex items-center space-x-2">
@@ -182,6 +202,16 @@ export default function ListaAutos({ contract }) {
                           {shortenAddress(auto.vendedor)}
                         </span>
                       </td>
+                      {/* CELDA DEL COMPRADOR */}
+                      <td className="px-6 py-5 whitespace-nowrap">
+                        {auto.vendido && auto.comprador && auto.comprador !== ethers.ZeroAddress ? (
+                          <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-mono font-bold bg-purple-100 text-purple-700 border border-purple-200">
+                            {shortenAddress(auto.comprador)}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 font-medium">N/A</span>
+                        )}
+                      </td>
                       <td className="px-6 py-5 whitespace-nowrap">
                         <span 
                           className={`
@@ -208,6 +238,22 @@ export default function ListaAutos({ contract }) {
                             </>
                           )}
                         </span>
+                      </td>
+                      {/* 🔑 NUEVA CELDA: BOTÓN DE TRANSACCIÓN */}
+                      <td className="px-6 py-5 whitespace-nowrap text-left">
+                        {auto.vendido && auto.txHash && auto.txHash !== ZeroHash ? (
+                          <a
+                            href={obtenerUrlEtherscan(auto.txHash)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-full shadow-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-all duration-150"
+                          >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            Ver Tx
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 font-medium">-</span>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -238,6 +284,7 @@ export default function ListaAutos({ contract }) {
                         {auto.marca && <p className="text-sm text-gray-600 font-medium">{auto.marca}</p>}
                       </div>
                     </div>
+                    
                     <span 
                       className={`
                         px-3 py-1 rounded-full text-xs font-black uppercase
@@ -272,6 +319,34 @@ export default function ListaAutos({ contract }) {
                         {shortenAddress(auto.vendedor)}
                       </span>
                     </div>
+
+                    {/* BLOQUE DEL COMPRADOR */}
+                    {auto.vendido && auto.comprador && auto.comprador !== ethers.ZeroAddress && (
+                      <div className="pt-3 border-t border-gray-200">
+                        <span className="text-xs text-gray-500 font-semibold block mb-1">
+                          Comprador: 
+                        </span>
+                        <span className="text-xs font-mono font-bold bg-purple-100 text-purple-700 px-3 py-1 rounded-lg inline-block">
+                          {shortenAddress(auto.comprador)}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* 🔑 NUEVO BLOQUE: ENLACE A TRANSACCIÓN */}
+                    {auto.vendido && auto.txHash && auto.txHash !== ZeroHash && (
+                      <div className="pt-3 border-t border-gray-200">
+                        <span className="text-xs text-gray-500 font-semibold block mb-2">Detalles de Transacción:</span>
+                        <a
+                          href={obtenerUrlEtherscan(auto.txHash)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-xs font-bold text-pink-700 hover:text-pink-900 transition-colors"
+                        >
+                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                          {shortenAddress(auto.txHash)} (Ver en Etherscan)
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

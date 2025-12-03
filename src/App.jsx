@@ -4,100 +4,250 @@ import PublicarAuto from "./components/PublicarAuto";
 import ListaAutos from "./components/ListaAutos";
 import Comprar from "./components/Comprar";
 
-const CONTRACT_ADDRESS = "0xd895e71fc3a798C9dfc7FCc096b12Fae6a436ec6";
+const CONTRACT_ADDRESS = "0x22b8EA1284DdD12cbd76f6C35049d7e63392B962";
 const CONTRACT_ABI = [
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "indexed": false, "internalType": "address", "name": "comprador", "type": "address" },
-      { "indexed": false, "internalType": "uint256", "name": "precio", "type": "uint256" }
-    ],
-    "name": "AutoComprado",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "indexed": false, "internalType": "string", "name": "marca", "type": "string" },
-      { "indexed": false, "internalType": "string", "name": "modelo", "type": "string" },
-      { "indexed": false, "internalType": "uint16", "name": "anio", "type": "uint16" },
-      { "indexed": false, "internalType": "uint256", "name": "precio", "type": "uint256" },
-      { "indexed": false, "internalType": "address", "name": "vendedor", "type": "address" }
-    ],
-    "name": "AutoPublicado",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_id", "type": "uint256" }
-    ],
-    "name": "comprarAuto",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "string", "name": "_marca", "type": "string" },
-      { "internalType": "string", "name": "_modelo", "type": "string" },
-      { "internalType": "uint16", "name": "_anio", "type": "uint16" },
-      { "internalType": "uint256", "name": "_precio", "type": "uint256" }
-    ],
-    "name": "listarAuto",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" }
-    ],
-    "name": "autos",
-    "outputs": [
-      { "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "internalType": "string", "name": "marca", "type": "string" },
-      { "internalType": "string", "name": "modelo", "type": "string" },
-      { "internalType": "uint16", "name": "anio", "type": "uint16" },
-      { "internalType": "uint256", "name": "precio", "type": "uint256" },
-      { "internalType": "address payable", "name": "vendedor", "type": "address" },
-      { "internalType": "address", "name": "comprador", "type": "address" },
-      { "internalType": "bool", "name": "vendido", "type": "bool" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "contadorAutos",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAutos",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "internalType": "string", "name": "marca", "type": "string" },
-          { "internalType": "string", "name": "modelo", "type": "string" },
-          { "internalType": "uint16", "name": "anio", "type": "uint16" },
-          { "internalType": "uint256", "name": "precio", "type": "uint256" },
-          { "internalType": "address payable", "name": "vendedor", "type": "address" },
-          { "internalType": "address", "name": "comprador", "type": "address" },
-          { "internalType": "bool", "name": "vendido", "type": "bool" }
-        ],
-        "internalType": "struct CarMarket.Auto[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "comprador",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "precio",
+				"type": "uint256"
+			}
+		],
+		"name": "AutoComprado",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "marca",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "modelo",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "anio",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "precio",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "vendedor",
+				"type": "address"
+			}
+		],
+		"name": "AutoPublicado",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "comprarAuto",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_marca",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_modelo",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_anio",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_precio",
+				"type": "uint256"
+			}
+		],
+		"name": "listarAuto",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "autos",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "marca",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "modelo",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "anio",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "precio",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "vendedor",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "comprador",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "vendido",
+				"type": "bool"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "transactionHash",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "contadorAutos",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAutos",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "marca",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "modelo",
+						"type": "string"
+					},
+					{
+						"internalType": "uint16",
+						"name": "anio",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint256",
+						"name": "precio",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "vendedor",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "comprador",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "vendido",
+						"type": "bool"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "transactionHash",
+						"type": "bytes32"
+					}
+				],
+				"internalType": "struct CarMarket.Auto[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+
 ];
 
 const TABS = {
