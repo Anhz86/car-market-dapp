@@ -759,20 +759,153 @@ export default function App() {
       )}
 
       {!cuenta && !isLoading && (
-        <div className="flex flex-col justify-center items-center h-[calc(100vh-120px)] px-4">
-          <div className="text-center space-y-4 max-w-md">
-            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl mx-auto flex items-center justify-center shadow-2xl">
-              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-              </svg>
-            </div>
-            <h2 className="text-3xl font-black text-gray-800">Bienvenido al Car Market</h2>
-            <p className="text-lg text-gray-600">
-              Conecta tu wallet de MetaMask para comenzar a comprar y vender autos en la blockchain.
-            </p>
-          </div>
-        </div>
-      )}
+        <div className="relative min-h-[calc(100vh-120px)] overflow-hidden">
+          {/* BACKGROUND ANIMADO */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+          </div>
+
+          {/* CONTENIDO PRINCIPAL */}
+          <div className="relative z-10 flex flex-col justify-center items-center min-h-[calc(100vh-120px)] px-4 py-12">
+            <div className="text-center space-y-8 max-w-5xl mx-auto">
+              
+              {/* LOGO GRANDE ANIMADO */}
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-3xl opacity-50 animate-pulse"></div>
+                <div className="relative w-32 h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl mx-auto flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-3 transition-all duration-500">
+                  <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* TÍTULO PRINCIPAL */}
+              <div className="space-y-4">
+                <h1 className="text-7xl md:text-8xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient leading-tight">
+                  Car Market
+                </h1>
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-transparent rounded-full"></div>
+                  <p className="text-xl md:text-2xl font-bold text-gray-600 uppercase tracking-wider">
+                    Blockchain Marketplace
+                  </p>
+                  <div className="h-1 w-20 bg-gradient-to-l from-purple-600 to-transparent rounded-full"></div>
+                </div>
+              </div>
+
+              {/* DESCRIPCIÓN */}
+              <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
+                El futuro de la compra-venta de automóviles está aquí. 
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold"> Transacciones seguras, transparentes y descentralizadas</span> en la blockchain de Ethereum.
+              </p>
+
+              {/* CARACTERÍSTICAS */}
+              <div className="grid md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+                <div className="group bg-white/60 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-black text-gray-800 mb-2">100% Seguro</h3>
+                  <p className="text-gray-600">Contratos inteligentes verificados en Ethereum</p>
+                </div>
+
+                <div className="group bg-white/60 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-black text-gray-800 mb-2">Ultra Rápido</h3>
+                  <p className="text-gray-600">Transacciones instantáneas en la blockchain</p>
+                </div>
+
+                <div className="group bg-white/60 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-black text-gray-800 mb-2">Transparente</h3>
+                  <p className="text-gray-600">Todas las transacciones son públicas y verificables</p>
+                </div>
+              </div>
+
+              {/* BOTÓN CTA */}
+              <div className="pt-8">
+                <button
+                  onClick={conectarWallet}
+                  className="group relative inline-flex items-center justify-center px-12 py-5 text-xl font-black text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                >
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                  <span className="relative flex items-center space-x-3">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <span>Conectar con MetaMask</span>
+                    <svg className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                </button>
+                <p className="text-sm text-gray-500 mt-4">
+                  ¿No tienes MetaMask? 
+                  <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-bold hover:text-purple-700 ml-1">
+                    Descárgalo aquí →
+                  </a>
+                </p>
+              </div>
+
+              {/* STATS */}
+              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-12">
+                <div className="text-center">
+                  <div className="text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">∞</div>
+                  <div className="text-sm text-gray-600 font-semibold mt-1">Transacciones</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">100%</div>
+                  <div className="text-sm text-gray-600 font-semibold mt-1">Seguro</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-black bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent">24/7</div>
+                  <div className="text-sm text-gray-600 font-semibold mt-1">Disponible</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* ESTILOS ADICIONALES */}
+          <style>{`
+            @keyframes blob {
+              0%, 100% { transform: translate(0, 0) scale(1); }
+              25% { transform: translate(20px, -20px) scale(1.1); }
+              50% { transform: translate(-20px, 20px) scale(0.9); }
+              75% { transform: translate(20px, 20px) scale(1.05); }
+            }
+            @keyframes gradient {
+              0%, 100% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+            }
+            .animate-blob {
+              animation: blob 7s infinite;
+            }
+            .animation-delay-2000 {
+              animation-delay: 2s;
+            }
+            .animation-delay-4000 {
+              animation-delay: 4s;
+            }
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradient 5s ease infinite;
+            }
+          `}</style>
+        </div>
+      )}
     </div>
   );
 }
